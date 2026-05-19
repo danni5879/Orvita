@@ -12,400 +12,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-<style>
-/* ══ TOKENS — Orvita palette ══ */
-:root {
-  /* Backgrounds */
-  --bg:         #dff0f5;        /* sky blue background */
-  --bg2:        #c8e8f2;
-  --surface:    #ffffff;
-  --surface2:   #f4fbfd;
-  --panel:      #eaf6fa;
-
-  /* Brand */
-  --teal:       #4ecdc4;
-  --teal-dark:  #3ab8af;
-  --teal-light: #e0f7f6;
-  --teal-mid:   rgba(78,205,196,.15);
-
-  /* Text */
-  --text:       #1a2e35;
-  --text2:      #3d5a62;
-  --muted:      #7a9ba5;
-  --muted2:     #a0bdc5;
-
-  /* Status */
-  --green:      #2ec97e;
-  --red:        #f05b5b;
-  --amber:      #f5a623;
-  --blue:       #3b9ded;
-  --purple:     #9b7fe8;
-
-  /* Structure */
-  --border:     rgba(78,205,196,.2);
-  --border2:    rgba(78,205,196,.4);
-  --shadow:     0 4px 20px rgba(78,205,196,.15);
-  --shadow2:    0 8px 32px rgba(78,205,196,.2);
-  --r:          12px;
-  --r-sm:       8px;
-  --mono:       'JetBrains Mono', monospace;
-  --sans:       'Nunito', sans-serif;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body { font-family: var(--sans); background: var(--bg); color: var(--text); }
-
-/* ══ SCREENS ══ */
-.screen { display: none; }
-.screen.active { display: flex; }
-
-/* ══ LOGIN ══ */
-#s-login {
-  min-height: 100vh; align-items: center; justify-content: center;
-  padding: 24px; flex-direction: column;
-  background:
-    radial-gradient(ellipse at 60% 0%,   #b2e8f0 0%, transparent 55%),
-    radial-gradient(ellipse at 10% 100%, #c5eff0 0%, transparent 50%),
-    #dff0f5;
-}
-
-.login-card {
-  background: var(--surface); border-radius: 24px;
-  padding: 48px 44px; max-width: 420px; width: 100%;
-  box-shadow: 0 16px 60px rgba(78,205,196,.22), 0 2px 8px rgba(0,0,0,.06);
-  border: 1px solid var(--border);
-}
-
-.brand-wrap { text-align: center; margin-bottom: 36px; }
-.brand-icon {
-  width: 68px; height: 68px; background: var(--teal); border-radius: 20px;
-  display: inline-flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
-  box-shadow: 0 8px 24px rgba(78,205,196,.4);
-}
-.brand-icon svg { width: 34px; height: 34px; }
-.brand-name { font-size: 28px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; }
-.brand-name span { color: var(--teal-dark); }
-.brand-tag { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
-
-/* step dots */
-.step-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; }
-.sdot { width: 32px; height: 5px; border-radius: 3px; background: var(--panel); transition: all .3s; }
-.sdot.active { background: var(--teal); }
-.sdot.done { background: var(--green); }
-
-.step-head { margin-bottom: 22px; }
-.step-lbl { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
-.step-title { font-size: 20px; font-weight: 800; color: var(--text); }
-.step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
-
-/* form */
-.fgroup { margin-bottom: 16px; }
-.flabel { display: block; font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 7px; }
-.finput {
-  width: 100%; background: var(--panel); border: 1.5px solid var(--border);
-  border-radius: var(--r-sm); padding: 12px 16px; color: var(--text);
-  font-family: var(--sans); font-size: 14px; outline: none; transition: all .2s;
-}
-.finput:focus { border-color: var(--teal); background: var(--surface); box-shadow: 0 0 0 3px rgba(78,205,196,.12); }
-.finput::placeholder { color: var(--muted2); }
-select.finput { cursor: pointer; }
-select.finput option { background: white; }
-textarea.finput { resize: vertical; min-height: 80px; }
-
-/* otp */
-.otp-row { display: flex; gap: 10px; justify-content: center; margin: 4px 0 6px; }
-.otp-input {
-  width: 50px; height: 62px; text-align: center; font-size: 26px; font-weight: 800;
-  background: var(--panel); border: 2px solid var(--border); border-radius: var(--r-sm);
-  color: var(--text); outline: none; transition: all .2s; font-family: var(--sans);
-}
-.otp-input:focus { border-color: var(--teal); background: var(--surface); box-shadow: 0 0 0 3px rgba(78,205,196,.12); }
-.otp-input.filled { border-color: var(--teal-dark); background: var(--teal-light); color: var(--teal-dark); }
-.otp-timer-row { text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
-.otp-timer { color: var(--teal-dark); font-weight: 700; font-family: var(--mono); }
-
-/* buttons */
-.btn-teal {
-  width: 100%; padding: 14px; background: var(--teal); color: white;
-  border: none; border-radius: var(--r-sm); font-family: var(--sans); font-size: 15px;
-  font-weight: 800; cursor: pointer; transition: all .2s; letter-spacing: .2px;
-  box-shadow: 0 4px 16px rgba(78,205,196,.4);
-}
-.btn-teal:hover { background: var(--teal-dark); box-shadow: 0 6px 20px rgba(78,205,196,.5); transform: translateY(-1px); }
-.btn-teal:active { transform: translateY(0); }
-.btn-teal:disabled { background: var(--muted2); box-shadow: none; cursor: default; }
-
-.err-msg { font-size: 12px; color: var(--red); font-weight: 600; text-align: center; margin-top: 10px; min-height: 18px; }
-.suc-msg { font-size: 12px; color: var(--green); font-weight: 600; text-align: center; margin-top: 10px; min-height: 18px; }
-.link-btn { display: block; text-align: center; background: none; border: none; color: var(--muted); font-size: 12px; font-family: var(--sans); cursor: pointer; margin-top: 14px; text-decoration: underline; font-weight: 600; }
-.link-btn:hover { color: var(--teal-dark); }
-.resend-btn { display: block; width: 100%; text-align: center; background: none; border: none; color: var(--blue); font-size: 12px; font-family: var(--sans); cursor: pointer; font-weight: 700; margin-top: 6px; }
-.resend-btn:disabled { color: var(--muted2); cursor: default; }
-
-/* ══ APP ══ */
-#s-app { height: 100vh; }
-.layout { display: flex; height: 100%; }
-
-/* SIDEBAR */
-.sidebar {
-  width: 240px; flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  box-shadow: 2px 0 16px rgba(78,205,196,.08);
-}
-.sb-head {
-  padding: 28px 20px 22px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(160deg, var(--teal-light) 0%, var(--surface) 100%);
-}
-.sb-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.sb-icon { width: 40px; height: 40px; background: var(--teal); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(78,205,196,.35); }
-.sb-icon svg { width: 20px; height: 20px; }
-.sb-name { font-size: 20px; font-weight: 900; color: var(--text); letter-spacing: -0.3px; }
-.sb-name span { color: var(--teal-dark); }
-.sb-tag { font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
-.admin-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--teal-mid); border: 1px solid var(--border2);
-  border-radius: 99px; padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--teal-dark);
-  max-width: 100%; overflow: hidden;
-}
-.admin-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.nav { padding: 16px 12px; flex: 1; overflow-y: auto; }
-.nav-sec { font-size: 10px; font-weight: 800; color: var(--muted2); letter-spacing: 1.5px; text-transform: uppercase; padding: 0 8px; margin: 16px 0 6px; }
-.nav-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 14px; border-radius: var(--r-sm);
-  font-size: 14px; font-weight: 700; color: var(--muted);
-  cursor: pointer; transition: all .15s; user-select: none; margin-bottom: 3px;
-}
-.nav-item:hover { background: var(--panel); color: var(--text2); }
-.nav-item.active { background: var(--teal-mid); color: var(--teal-dark); }
-.nav-item .icon { font-size: 17px; width: 22px; text-align: center; }
-.nav-item.active .icon-dot { display: block; }
-.icon-dot { display: none; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-left: auto; }
-
-.sb-footer {
-  padding: 16px 20px; border-top: 1px solid var(--border);
-  background: var(--surface2);
-}
-.conn-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
-.cdot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-.btn-so {
-  width: 100%; padding: 10px 14px; background: transparent;
-  border: 1.5px solid var(--border2); border-radius: var(--r-sm);
-  color: var(--muted); font-size: 13px; font-family: var(--sans); font-weight: 700;
-  cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 8px;
-}
-.btn-so:hover { border-color: var(--red); color: var(--red); background: rgba(240,91,91,.05); }
-
-/* MAIN */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
-.topbar {
-  padding: 18px 28px; background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
-  box-shadow: 0 2px 12px rgba(78,205,196,.08);
-}
-.page-title { font-size: 22px; font-weight: 900; color: var(--text); letter-spacing: -0.3px; }
-.topbar-right { display: flex; align-items: center; gap: 12px; }
-.topbar-time { font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--panel); padding: 5px 10px; border-radius: 99px; }
-.content { flex: 1; overflow-y: auto; padding: 28px; }
-
-/* STATS */
-.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
-.stat-card {
-  background: var(--surface); border-radius: var(--r); padding: 20px 22px;
-  box-shadow: var(--shadow); border: 1px solid var(--border);
-  position: relative; overflow: hidden;
-}
-.stat-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 3px 3px 0 0;
-}
-.ct::before { background: var(--teal); }
-.cg::before { background: var(--green); }
-.cb::before { background: var(--blue); }
-.cp::before { background: var(--purple); }
-.stat-icon { font-size: 28px; margin-bottom: 10px; }
-.stat-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; }
-.stat-value { font-size: 40px; font-weight: 900; line-height: 1; margin: 4px 0 2px; letter-spacing: -1px; }
-.ct .stat-value { color: var(--teal-dark); }
-.cg .stat-value { color: var(--green); }
-.cb .stat-value { color: var(--blue); }
-.cp .stat-value { color: var(--purple); }
-.stat-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
-
-/* SECTION HEADER */
-.sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
-.sec-head h2 { font-size: 18px; font-weight: 800; color: var(--text); }
-.controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.controls .finput { width: auto; padding: 9px 14px; font-size: 13px; border-radius: 99px; }
-.controls select.finput { padding-right: 28px; }
-
-/* BUTTONS (app) */
-.btn {
-  padding: 9px 18px; border-radius: 99px; font-size: 13px; font-weight: 800;
-  font-family: var(--sans); border: none; cursor: pointer; transition: all .15s;
-  display: inline-flex; align-items: center; gap: 6px;
-}
-.btn:active { transform: scale(.97); }
-.btn-primary { background: var(--teal); color: white; box-shadow: 0 3px 12px rgba(78,205,196,.35); }
-.btn-primary:hover { background: var(--teal-dark); }
-.btn-ghost { background: var(--panel); color: var(--text2); border: 1.5px solid var(--border2); }
-.btn-ghost:hover { background: var(--teal-mid); color: var(--teal-dark); }
-.btn-edit { background: rgba(59,157,237,.12); color: var(--blue); border: 1px solid rgba(59,157,237,.25); }
-.btn-edit:hover { background: rgba(59,157,237,.22); }
-.btn-warn { background: rgba(245,166,35,.12); color: var(--amber); border: 1px solid rgba(245,166,35,.3); }
-.btn-warn:hover { background: rgba(245,166,35,.22); }
-.btn-del { background: rgba(240,91,91,.1); color: var(--red); border: 1px solid rgba(240,91,91,.25); }
-.btn-del:hover { background: rgba(240,91,91,.2); }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-
-/* TABLE */
-.table-card { background: var(--surface); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); }
-table { width: 100%; border-collapse: collapse; }
-thead { background: linear-gradient(90deg, var(--teal-light), #e8f9f8); border-bottom: 1px solid var(--border); }
-th { padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 800; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .8px; white-space: nowrap; }
-td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid rgba(78,205,196,.08); vertical-align: middle; font-weight: 600; }
-tr:last-child td { border-bottom: none; }
-tbody tr:hover td { background: var(--teal-mid); }
-
-/* BADGES */
-.badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; letter-spacing: .3px; }
-.bd  { background: rgba(46,201,126,.12); color: #1a9a5c; }
-.bp  { background: rgba(245,166,35,.12); color: #c27c00; }
-.bpr { background: rgba(59,157,237,.12); color: #1a6eb0; }
-.bc  { background: rgba(240,91,91,.12);  color: #c02020; }
-.ba  { background: rgba(78,205,196,.15); color: var(--teal-dark); }
-.bm  { background: rgba(155,127,232,.12);color: #6b47d0; }
-.bact{ background: rgba(46,201,126,.12); color: #1a9a5c; }
-.bdis{ background: rgba(240,91,91,.12);  color: #c02020; }
-.pdot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-.ph { background: var(--red); } .pm { background: var(--amber); } .pl { background: var(--green); }
-
-/* PAGES */
-.page { display: none; } .page.active { display: block; }
-
-/* CARDS */
-.info-card { background: var(--surface); border-radius: var(--r); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-.info-card h3 { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.alert-warn { background: rgba(245,166,35,.08); border: 1.5px solid rgba(245,166,35,.3); border-radius: var(--r-sm); padding: 14px 16px; font-size: 13px; color: #9a6200; font-weight: 600; margin-bottom: 16px; line-height: 1.6; }
-.alert-info { background: var(--teal-mid); border: 1.5px solid var(--border2); border-radius: var(--r-sm); padding: 14px 16px; font-size: 13px; color: var(--teal-dark); font-weight: 600; margin-bottom: 14px; line-height: 1.6; }
-
-/* USER CARDS */
-.user-card {
-  background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: var(--r); padding: 16px 20px;
-  display: flex; align-items: center; gap: 16px; margin-bottom: 10px;
-  box-shadow: var(--shadow); transition: all .15s;
-}
-.user-card:hover { border-color: var(--teal); box-shadow: var(--shadow2); transform: translateY(-1px); }
-.avatar {
-  width: 46px; height: 46px; border-radius: 14px; background: var(--teal);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 17px; color: white; flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(78,205,196,.3);
-}
-.u-info { flex: 1; min-width: 0; }
-.u-name { font-weight: 800; font-size: 14px; color: var(--text); }
-.u-email { font-size: 12px; color: var(--muted); font-family: var(--mono); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.u-id { margin-top: 3px; font-size: 10px; color: var(--muted2); font-family: var(--mono); }
-.u-actions { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
-
-/* EMPTY / LOADING */
-.empty-state { padding: 60px 20px; text-align: center; color: var(--muted); }
-.empty-state .emoji { font-size: 44px; margin-bottom: 12px; }
-.empty-state p { font-size: 14px; font-weight: 600; }
-.load-row { padding: 40px; text-align: center; color: var(--muted); font-size: 14px; font-weight: 600; }
-
-/* MODAL */
-.modal-backdrop { position: fixed; inset: 0; background: rgba(26,46,53,.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 24px; opacity: 0; pointer-events: none; transition: opacity .2s; }
-.modal-backdrop.open { opacity: 1; pointer-events: all; }
-.modal { background: var(--surface); border-radius: 20px; padding: 32px; width: 100%; max-width: 500px; transform: translateY(16px) scale(.98); transition: transform .2s; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(78,205,196,.2), 0 4px 20px rgba(0,0,0,.1); border: 1px solid var(--border); }
-.modal-backdrop.open .modal { transform: translateY(0) scale(1); }
-.modal h3 { font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 22px; }
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
-.field input, .field select, .field textarea { width: 100%; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
-
-/* RESET HISTORY */
-.rh-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 600; }
-.rh-row:last-child { border-bottom: none; }
-
-/* TOAST */
-#toast { position: fixed; bottom: 28px; right: 28px; background: var(--surface); border: 1.5px solid var(--border2); border-radius: 14px; padding: 14px 22px; font-size: 13px; font-weight: 700; box-shadow: var(--shadow2); transform: translateY(20px); opacity: 0; transition: all .25s; z-index: 999; max-width: 340px; color: var(--text); }
-#toast.show { transform: translateY(0); opacity: 1; }
-#toast.success { border-left: 4px solid var(--green); }
-#toast.error   { border-left: 4px solid var(--red); }
-#toast.info    { border-left: 4px solid var(--teal); }
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--muted2); border-radius: 3px; }
-
-@media(max-width:720px){
-  .sidebar{width:60px;}
-  .sb-name,.sb-tag,.sb-footer .btn-so span,.nav-sec,.admin-pill span,.nav-item span:not(.icon){display:none;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .content{padding:16px;}
-}
-
-/* ── MOBILE RESPONSIVE ── */
-@media(max-width:480px){
-  .login-card{padding:36px 24px;border-radius:20px;}
-  .brand-icon{width:60px;height:60px;border-radius:18px;}
-  .brand-name{font-size:26px;}
-  .otp-input{width:42px;height:54px;font-size:22px;}
-  .otp-row{gap:7px;}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
-  .dash-row{grid-template-columns:1fr;}
-  .topbar{padding:14px 16px;}
-  .page-title{font-size:18px;}
-  .content{padding:16px;}
-  .user-card{flex-wrap:wrap;}
-  .u-actions{width:100%;justify-content:flex-start;margin-top:8px;}
-  .table-card{overflow-x:auto;}
-  .controls{flex-direction:column;align-items:stretch;}
-  .controls .finput{width:100%!important;}
-  .modal{padding:24px 20px;border-radius:16px;}
-}
-@media(max-width:720px){
-  .sidebar{width:60px;}
-  .sb-name,.sb-sub,.sb-footer .btn-so span,.nav-sec,.admin-pill span,.nav-item span:not(.icon){display:none;}
-  .dash-row,.dash-row2{grid-template-columns:1fr;}
-}
-@media(max-width:900px){
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .dash-row{grid-template-columns:1fr;}
-}
-
-/* ── EXTRA CARDS & CHARTS ── */
-.card{background:#fff;border-radius:var(--r);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);}
-.stat-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
-.stat-emoji{font-size:32px;line-height:1;}
-.stat-trend{font-size:11px;font-weight:800;padding:4px 8px;border-radius:99px;}
-.trend-up{background:rgba(46,201,126,.12);color:#1a9a5c;}
-.trend-neu{background:var(--panel);color:var(--muted);}
-.stat-bar{height:4px;background:var(--panel);border-radius:2px;margin-top:14px;overflow:hidden;}
-.stat-bar-fill{height:100%;border-radius:2px;transition:width .8s ease;}
-.ct .stat-bar-fill{background:var(--teal);}
-.cg .stat-bar-fill{background:var(--green);}
-.cb .stat-bar-fill{background:var(--blue);}
-.cp .stat-bar-fill{background:var(--purple);}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-@media(max-width:900px){
-  .dash-row{grid-template-columns:1fr!important;}
-}
-
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -438,13 +45,21 @@ const EMAILJS_CONFIG = {
 /* ╔══════════════════════════════════════╗
    ║  COLECCIONES FIRESTORE              ║
    ╚══════════════════════════════════════╝ */
-const COLLECTIONS = { tasks: "tasks", users: "users" };
+const COLLECTIONS = { 
+  tasks: "tasks", 
+  users: "users",
+  projects: "projects"
+ };
+
+ const PROJECTS = COLLECTIONS.projects;
+
 
 /* ╔══════════════════════════════════════╗
    ║  EMAILS AUTORIZADOS COMO ADMIN      ║
    ╚══════════════════════════════════════╝ */
 const ADMIN_EMAILS = [
-  "danaamado5879@gmail.com"
+  "danaamado5879@gmail.com",
+  "andres.torres693@cide.edu.co"
 ];
 </script>
 
@@ -479,11 +94,11 @@ const ADMIN_EMAILS = [
       </div>
 
       <div class="fgroup">
-        <label class="flabel">Correo electrónico</label>
+        <label class="flabel">Correo electrónico de Administrador</label>
         <input class="finput" type="email" id="l-email" placeholder="admin@correo.com"
                onkeydown="if(event.key==='Enter')document.getElementById('l-pass').focus()" />
       </div>
-      <div class="fgroup" style="margin-bottom:22px">
+      <div class="fgroup" style="margin-bottom:24px">
         <label class="flabel">Contraseña</label>
         <input class="finput" type="password" id="l-pass" placeholder="••••••••"
                onkeydown="if(event.key==='Enter')doStep1()" />
@@ -624,10 +239,10 @@ const ADMIN_EMAILS = [
         </div>
 
         <!-- CHARTS ROW -->
-        <div class="dash-row" style="display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:24px">
+        <div class="dash-row" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:20px;margin-bottom:24px">
 
           <!-- Donut -->
-          <div class="card">
+          <div class="card" style="min-height: 250px;">
             <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
               <div><div style="font-size:16px;font-weight:900;color:var(--text)">Distribución de Tareas</div><div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px">Por estado actual</div></div>
             </div>
@@ -671,7 +286,7 @@ const ADMIN_EMAILS = [
           </div>
 
           <!-- Priority + rate -->
-          <div class="card">
+          <div class="card" style="min-height: 250px;">
             <div style="font-size:16px;font-weight:900;color:var(--text);margin-bottom:4px">Por Prioridad</div>
             <div style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:20px">Distribución actual</div>
             <div style="margin-bottom:14px">
@@ -693,13 +308,12 @@ const ADMIN_EMAILS = [
           </div>
         </div>
 
-        <div class="sec-head">
+        <div class="sec-head" style="margin-top: 32px;">
           <h2>Tareas Recientes</h2>
-          <button class="btn btn-primary btn-sm" onclick="openTaskModal()">＋ Nueva Tarea</button>
         </div>
         <div class="table-card">
-          <table><thead><tr><th>Título</th><th>Estado</th><th>Prioridad</th><th>Usuario</th><th>Creada</th></tr></thead>
-          <tbody id="dash-tbody"><tr><td colspan="5" class="load-row">Cargando…</td></tr></tbody></table>
+          <table><thead><tr><th>Título</th><th>Estado</th><th>Prioridad</th><th>Usuario</th><th>Creada</th><th style="text-align:right">Acciones</th></tr></thead>
+          <tbody id="dash-tbody"><tr><td colspan="6" class="load-row">Cargando…</td></tr></tbody></table>
         </div>
       </div>
     </div>
@@ -709,7 +323,7 @@ const ADMIN_EMAILS = [
       <div class="topbar">
         <div class="page-title">Tareas</div>
         <div class="topbar-right">
-          <button class="btn btn-primary btn-sm" onclick="openTaskModal()">＋ Nueva Tarea</button>
+            <button class="btn btn-primary btn-sm" onclick="openTaskModal()">＋ Nueva Tarea</button>
         </div>
       </div>
       <div class="content">
@@ -749,9 +363,15 @@ const ADMIN_EMAILS = [
         <div class="sec-head">
           <div class="controls">
             <input class="finput" type="text" id="search-projects" placeholder="🔍 Buscar proyecto…" oninput="filterProjects()" style="width:220px"/>
+            <select class="finput" id="flt-p-status" onchange="filterProjects()">
+              <option value="">Todos los estados</option>
+              <option value="active">Activo</option>
+              <option value="completed">Completado</option>
+              <option value="paused">Pausado</option>
+            </select>
           </div>
         </div>
-        <div id="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">
+        <div id="projects-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px">
           <div class="load-row" style="grid-column:1/-1">Cargando proyectos…</div>
         </div>
       </div>
@@ -772,8 +392,7 @@ const ADMIN_EMAILS = [
     <div class="page" id="page-auth">
       <div class="topbar"><div class="page-title">Auth & Reset</div></div>
       <div class="content">
-        <div class="alert-warn">⚠️ El SDK web de Firebase no puede listar ni deshabilitar cuentas de Auth desde el navegador (requiere Admin SDK). Desde aquí puedes <strong>enviar emails de restablecimiento de contraseña</strong> y gestionar perfiles en Firestore.</div>
-
+        
         <div class="info-card">
           <h3>🔑 Restablecer contraseña</h3>
           <p style="font-size:13px;color:var(--muted);font-weight:600;line-height:1.6;margin-bottom:16px">Firebase envía un enlace de restablecimiento al correo del usuario.</p>
@@ -782,7 +401,7 @@ const ADMIN_EMAILS = [
               <label class="flabel">Email del usuario</label>
               <input class="finput" type="email" id="reset-email" placeholder="usuario@correo.com" />
             </div>
-            <button class="btn btn-primary" onclick="sendReset()">📧 Enviar reset</button>
+            <button class="btn btn-primary" id="btn-send-reset" onclick="sendReset()">📧 Enviar reset</button>
           </div>
           <div id="reset-res" style="font-size:13px;font-weight:700;margin-top:12px;display:none"></div>
         </div>
@@ -951,11 +570,22 @@ function initApp(){
     db   = firebase.firestore();
     auth = firebase.auth();
     emailjs.init(EMAILJS_CONFIG.publicKey);
+
+    // Verificar si ya existe una sesión activa y validada por OTP (máximo 1 hora)
+    auth.onAuthStateChanged(user => {
+      if (user && isAdmin(user.email)) {
+        const verifiedAt = localStorage.getItem('orvita_otp_verified');
+        const ONE_HOUR = 3600 * 1000;
+        if (verifiedAt && (Date.now() - parseInt(verifiedAt) < ONE_HOUR)) {
+          launchApp(user);
+          return;
+        }
+      }
+      showScreen('login');
+    });
   }catch(e){ console.error('Firebase init:', e); return; }
   setupOTPInputs();
   setInterval(()=>{ const el=document.getElementById('dash-time'); if(el) el.textContent=new Date().toLocaleTimeString('es-CO'); }, 1000);
-  /* ✅ SIEMPRE cerrar sesión → fuerza OTP en cada visita */
-  auth.signOut().catch(()=>{});
 }
 window.addEventListener('load', initApp);
 
@@ -999,13 +629,25 @@ async function doStep1(){
     otpEmail=email;
     otpCode=Math.floor(100000+Math.random()*900000).toString();
     otpExpiry=Date.now()+5*60*1000;
-    await emailjs.send(EMAILJS_CONFIG.serviceId,EMAILJS_CONFIG.templateId,{to_email:email,otp_code:otpCode,expires_in:'5 minutos'});
+
+    // Enviamos el correo en segundo plano para rapidez, 
+    // pero aseguramos que las variables de estado ya estén seteadas.
+    emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+      to_email: email,
+      otp_code: otpCode,
+      expires_in: '5 minutos'
+    }).catch(e => {
+      console.error("EmailJS Error:", e);
+      toast('Error al enviar: ' + (e.text || e.message), 'error');
+    });
+
     document.getElementById('step-1').style.display='none';
     document.getElementById('step-2').style.display='block';
     document.getElementById('otp-dest').textContent=email;
     document.getElementById('dot-1').className='sdot done';
     document.getElementById('dot-2').className='sdot active';
-    startOTPTimer(); startResendCD();
+    startOTPTimer(); 
+    startResendCD();
     document.getElementById('o0').focus();
   }catch(e){
     const m={
@@ -1026,10 +668,13 @@ function doStep2(){
   const entered=getOTP();
   const errEl=document.getElementById('err-2'), sucEl=document.getElementById('suc-2');
   errEl.textContent=''; sucEl.textContent='';
+  
   if(entered.length<6){errEl.textContent='Ingresa los 6 dígitos.';return;}
   if(Date.now()>otpExpiry){errEl.textContent='⏰ El código expiró. Reenvía uno nuevo.';clearOTP();return;}
   if(entered!==otpCode){errEl.textContent='❌ Código incorrecto. Inténtalo de nuevo.';clearOTP();document.getElementById('o0').focus();return;}
+  
   sucEl.textContent='✅ Verificado. Entrando…';
+  localStorage.setItem('orvita_otp_verified', Date.now()); // Guardar marca de validación
   clearInterval(timerInterval); clearInterval(resendInterval);
   setTimeout(()=>{ if(auth.currentUser) launchApp(auth.currentUser); else { document.getElementById('suc-2').textContent=''; document.getElementById('err-2').textContent='❌ Sesión expiró. Vuelve al paso 1.'; } },800);
 }
@@ -1044,13 +689,18 @@ function backToStep1(){
 }
 
 async function resendOTP(){
+  // Al generar un nuevo código aquí, el anterior (otpCode) queda invalidado
+  // inmediatamente para la función doStep2.
   otpCode=Math.floor(100000+Math.random()*900000).toString();
   otpExpiry=Date.now()+5*60*1000;
   clearOTP(); document.getElementById('err-2').textContent='';
+  document.getElementById('suc-2').textContent='Enviando nuevo código...';
+  
   try{
     await emailjs.send(EMAILJS_CONFIG.serviceId,EMAILJS_CONFIG.templateId,{to_email:otpEmail,otp_code:otpCode,expires_in:'5 minutos'});
     document.getElementById('suc-2').textContent='📧 Nuevo código enviado.';
-    startOTPTimer(); startResendCD();
+    startOTPTimer(); 
+    startResendCD();
   }catch(e){ document.getElementById('err-2').textContent='Error al enviar: '+(e.text||e.message); }
 }
 
@@ -1061,9 +711,24 @@ function startOTPTimer(){
 }
 function startResendCD(){
   clearInterval(resendInterval);
-  const btn=document.getElementById('resend-btn'), cd=document.getElementById('resend-cd');
-  let s=60; btn.disabled=true; cd.textContent=s;
-  resendInterval=setInterval(()=>{ s--; cd.textContent=s; if(s<=0){clearInterval(resendInterval);btn.disabled=false;btn.textContent='Reenviar código';} },1000);
+  const btn = document.getElementById('resend-btn');
+  if(!btn) return;
+  
+  let s = 60; 
+  btn.disabled = true;
+  // Re-inyectamos el span para asegurar que exista en cada ciclo
+  btn.innerHTML = `Reenviar código (<span id="resend-cd">${s}</span>s)`;
+  const cd = document.getElementById('resend-cd');
+
+  resendInterval = setInterval(() => { 
+    s--; 
+    if(cd) cd.textContent = s; 
+    if(s <= 0){
+      clearInterval(resendInterval);
+      btn.disabled = false;
+      btn.textContent = 'Reenviar código';
+    } 
+  }, 1000);
 }
 
 /* LAUNCH APP */
@@ -1081,6 +746,7 @@ function launchApp(user){
 /* SIGN OUT */
 function doSignOut(){
   if(!confirm('¿Cerrar sesión?'))return;
+  localStorage.removeItem('orvita_otp_verified'); // Limpiar caché al cerrar sesión
   auth.signOut().then(()=>{
     if(unsubTasks)unsubTasks();
     document.getElementById('step-1').style.display='block';
@@ -1094,13 +760,42 @@ function doSignOut(){
 }
 
 /* RESET */
-function sendReset(){
-  const email=document.getElementById('reset-email').value.trim();
-  const resEl=document.getElementById('reset-res'); resEl.style.display='none';
-  if(!email){toast('Ingresa un email','error');return;}
-  auth.sendPasswordResetEmail(email)
-    .then(()=>{ resEl.style.cssText='display:block;color:var(--green)'; resEl.textContent='✅ Email enviado a '+email; toast('Reset enviado a '+email,'success'); resetHistory.unshift({email,time:new Date()}); renderResetHistory(); document.getElementById('reset-email').value=''; })
-    .catch(e=>{ resEl.style.cssText='display:block;color:var(--red)'; const m={'auth/user-not-found':'No existe cuenta de Auth con ese email.','auth/invalid-email':'Email inválido.'}; resEl.textContent='❌ '+(m[e.code]||e.message); });
+async function sendReset(){
+  const email = document.getElementById('reset-email').value.trim();
+  const resEl = document.getElementById('reset-res');
+  const btn = document.getElementById('btn-send-reset');
+  
+  if(!email){ toast('Ingresa un email','error'); return; }
+  if(!auth){ toast('Error: Firebase no cargado','error'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  resEl.style.display = 'none';
+
+  try {
+    await auth.sendPasswordResetEmail(email);
+    resEl.style.display = 'block';
+    resEl.style.color = 'var(--green)';
+    resEl.textContent = '✅ Email enviado a ' + email;
+    toast('Reset enviado con éxito', 'success');
+    resetHistory.unshift({email, time: new Date()});
+    renderResetHistory();
+    document.getElementById('reset-email').value = '';
+  } catch (e) {
+    resEl.style.display = 'block';
+    resEl.style.color = 'var(--red)';
+    const m = { 
+      'auth/user-not-found': '❌ El correo no existe en la lista de Authentication (Usuarios) de Firebase.', 
+      'auth/invalid-email': '❌ El formato del correo es inválido.',
+      'auth/too-many-requests': '❌ Demasiados intentos. Revisa tu correo o intenta más tarde.',
+      'auth/internal-error': '❌ Error interno de Firebase. Revisa la consola.'
+    };
+    resEl.textContent = m[e.code] || '❌ Error: ' + e.message;
+    toast('No se pudo enviar el reset', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📧 Enviar reset';
+  }
 }
 function renderResetHistory(){
   const el=document.getElementById('reset-history');
@@ -1262,7 +957,7 @@ function deleteUserDoc(id){if(!confirm('¿Eliminar usuario de Firestore?'))retur
 let allProjects=[];
 function loadProjects(){
   if(!db)return;
-  db.collection('projects').orderBy('createdAt','desc').get()
+  db.collection(PROJECTS).orderBy('createdAt','desc').get()
     .then(snap=>{
       allProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
       renderProjects(allProjects);
@@ -1274,8 +969,8 @@ function loadProjects(){
 }
 
 function filterProjects(){
-  const q=document.getElementById('search-projects').value.toLowerCase();
-  renderProjects(q?allProjects.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.desc||'').toLowerCase().includes(q)):allProjects);
+  const q=document.getElementById('search-projects').value.toLowerCase(), s=document.getElementById('flt-p-status').value;
+  renderProjects(allProjects.filter(p=>{const ti=(p.name||'').toLowerCase(),de=(p.desc||'').toLowerCase(); return(!q||ti.includes(q)||de.includes(q))&&(!s||p.status===s);}));
 }
 
 function renderProjects(projects){
@@ -1318,7 +1013,7 @@ function saveProject(){
   if(!name){toast('El nombre es obligatorio','error');return;}
   const id=document.getElementById('edit-project-id').value;
   const data={name,desc:document.getElementById('pf-desc').value.trim(),status:document.getElementById('pf-status').value,color:document.getElementById('pf-color').value,dueDate:document.getElementById('pf-due').value||null,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
-  const ref=db.collection('projects');
+  const ref=db.collection(PROJECTS);
   if(id){
     ref.doc(id).update(data).then(()=>{closeModal('project-modal');toast('Proyecto actualizado ✓','success');loadProjects();}).catch(e=>toast(e.message,'error'));
   }else{
@@ -1328,7 +1023,7 @@ function saveProject(){
 }
 function deleteProject(id){
   if(!confirm('¿Eliminar este proyecto?'))return;
-  db.collection('projects').doc(id).delete().then(()=>{toast('Proyecto eliminado','success');loadProjects();}).catch(e=>toast(e.message,'error'));
+  db.collection(PROJECTS).doc(id).delete().then(()=>{toast('Proyecto eliminado','success');loadProjects();}).catch(e=>toast(e.message,'error'));
 }
 
 function showPage(page,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');el.classList.add('active');
